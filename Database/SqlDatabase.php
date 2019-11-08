@@ -22,7 +22,7 @@ class SqlDatabase {
   // Database is a Singelton for accessibility and balance
   private function __construct()
   {
-     
+      $this->initDatabaseConfig();
       $this->connect();
   }
   
@@ -77,7 +77,7 @@ class SqlDatabase {
     }
 
     private function initDatabaseConfig() {
-      if(getenv("PRODUCTION")) {
+      if(getenv("PRODUCTION") == "true") {
         $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
         $this->host = $url["host"];
         $this->usernam = $url["user"];
