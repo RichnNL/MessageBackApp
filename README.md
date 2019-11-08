@@ -27,6 +27,8 @@ https://github.com/RichnNL/MessageBackApp
 In order to see the messages first must acquire a JWT token
 To get a token is simple go to the use POST METHOD api/login.php/?username=<YourUserName> GET method will not work, and only username will work
 
+# example https://messageapp-1122.herokuapp.com/api/login.php/?username=Bob
+
 no password is needed if it is a new user a new user will be created stored and a token will be generated and returned to you
 
 use that token in the Header as so: Authorization: Bearer <token>
@@ -36,6 +38,9 @@ to get your messages go to api/messages.php use GET and include the token in the
 to send a message go to the same endpoint api/messages.php but include 
 recipient=<Name>
 content=<YourMessage>
+
+# example POST https://messageapp-1122.herokuapp.com/api/messages.php/?recipient=Hans&content=Hello
+# example GET https://messageapp-1122.herokuapp.com/api/messages.php/
  as parameters and the token again in the headers, if successful will retrieve a success JSON object
 
 # Structure
