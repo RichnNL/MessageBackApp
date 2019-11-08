@@ -62,7 +62,7 @@ if($token != null) {
                 echo json_encode($message);
             }
         } else {
-            $error = [ 'Error' => 'Error Getting Messages' ];
+            $error = [ 'Error' => 'No Messages Found' ];
             echo json_encode($error);
         }
         

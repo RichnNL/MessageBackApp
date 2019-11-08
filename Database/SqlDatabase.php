@@ -3,7 +3,6 @@
 namespace Database;
 
 use \PDO;
-use\mysqli;
 use \PDOException;
 
 class SqlDatabase {
