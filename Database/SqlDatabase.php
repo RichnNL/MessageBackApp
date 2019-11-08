@@ -42,16 +42,12 @@ class SqlDatabase {
 
   public function connect() {
       try {
-        $location = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname ;
-        if($this->pdoArray != null) {
-          $this->connection = new mysqli($location, $this->username, $this->password, $this->pdoArray);
-        } else {
+          $location = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname ;
           $this->connection = new PDO($location, $this->username, $this->password);
           $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        }
-       
-        $this->initTables();
-      } catch(PDOException $error) {
+          $this->initTables();
+      }
+       catch(\PDOException $error) {
           echo 'Connection Error: ' . $error->getMessage();
           die();
       }
@@ -77,19 +73,28 @@ class SqlDatabase {
     }
 
     private function initDatabaseConfig() {
+
       if(getenv("PRODUCTION") == "true") {
-        $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
-        $this->host = $url["host"];
-        $this->usernam = $url["user"];
-        $this->password = $url["pass"];
-        $this->pdoArray = substr($url["path"], 1);
+        $url = getenv('JAWSDB_URL');
+        $dbparts = parse_url($url);
+        
+        $this->host = $dbparts['host'];
+        $this->username = $dbparts['user'];
+        $this->password = $dbparts['pass'];
+        $this->dbname = ltrim($dbparts['path'],'/');
       } else {
         $this->databaseType = getenv("DB_CONNECTION");
         $this->host = getenv("DB_HOST");
         $this->dbname = getenv("DB_DATABASE");
         $this->username =  getenv("DB_USERNAME");
         $this->password =  getenv("DB_PASSWORD");
+
       }
+   
+    
+        
+
+
       
     }
 
