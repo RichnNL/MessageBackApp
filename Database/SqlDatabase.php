@@ -47,9 +47,30 @@ class SqlDatabase {
         $location = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname ;
         $this->connection = new PDO($location, $this->username, $this->password);
         $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->initTables();
       } catch(PDOException $error) {
-          echo 'Connection Error: ' . $e->getMessage();
+          echo 'Connection Error: ' . $error->getMessage();
           die();
       }
   }
-}
+
+  private function initTables() {
+      $createUserTable = "CREATE TABLE IF NOT EXISTS users (
+                          username varchar(20) NOT NULL UNIQUE,
+                          api_token text
+                        )";
+
+      $this->connection->query($createUserTable);
+
+      $createMessageTable = "CREATE TABLE IF NOT EXISTS messages (
+        id int(11) NOT NULL KEY AUTO_INCREMENT,
+        content text NOT NULL,
+        author varchar(20) NOT NULL,
+        recipient varchar(20) NOT NULL,
+        epoch int(11) NOT NULL
+      ) ";
+
+      $this->connection->query($createMessageTable);
+    }
+
+  }
